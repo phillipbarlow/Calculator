@@ -1,5 +1,5 @@
 import './App.css';
-
+import Button from './components/Button'
 function App() {
   return (
     <div className="App">
@@ -8,24 +8,24 @@ function App() {
 
         </div>
         <div className='btnsContainer'>
-          <button className='clear'>C</button>
-          <button className='percent'>%</button>
-          <button className='divide'>/</button>
-          <button className='nine'>9</button>
-          <button className='eight'>8</button>
-          <button className='seven'>7</button>
-          <button className='six'>6</button>
-          <button className='five'>5</button>
-          <button className='four'>4</button>
-          <button className='three'>3</button>
-          <button className='two'>2</button>
-          <button className='one'>1</button>
-          <button className='zero'>0</button>
-          <button className='mult'>X</button>
-          <button className='minus'>-</button>
-          <button className='add'>+</button>
-          <button className='decimal'>.</button>
-          <button className='equal'>=</button>
+          <Button className='clear'>C</Button>
+          <Button className='percent'>%</Button>
+          <Button className='divide'>/</Button>
+          <Button className='nine'>9</Button>
+          <Button className='eight'>8</Button>
+          <Button className='seven'>7</Button>
+          <Button className='six'>6</Button>
+          <Button className='five'>5</Button>
+          <Button className='four'>4</Button>
+          <Button className='three'>3</Button>
+          <Button className='two'>2</Button>
+          <Button className='one'>1</Button>
+          <Button className='zero'>0</Button>
+          <Button className='mult'>X</Button>
+          <Button className='minus'>-</Button>
+          <Button className='add'>+</Button>
+          <Button className='decimal'>.</Button>
+          <Button className='equal'>=</Button>
         </div>
       </div>
     </div>
