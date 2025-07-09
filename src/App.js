@@ -13,10 +13,8 @@ function App() {
   }
 
   function handleEvaluation(){
-    const removeSpace = text.filter((num)=> num !== " ");
-    const makeNumber = removeSpace.join('')
-    setResult(()=> math.evaluate(makeNumber))
-    console.log(math.evaluate(makeNumber))
+    const num = text.join('')
+   setResult(math.evaluate(num))
   }
 
   return (
