@@ -33,6 +33,12 @@
     flex-grow: 1;
     flex-direction: row-reverse;
 }
+.display-screen > .numberOutput{
+    font-size: 20px;
+}
+.display-screen > .resultOutput{
+    font-size: 35px;
+}
 .btnsContainer{
     flex-grow: 1;
     display: grid;

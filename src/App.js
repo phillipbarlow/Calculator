@@ -4,17 +4,46 @@ import Button from './components/Button';
 import { create, all } from 'mathjs'
 
 function App() {
-  const [text,setText] = useState("");
+  const [text,setText] = useState([]);
   const [result,setResult] = useState("");
+  const [isValid,setIsValid] = useState(true);
+  const [isvalidResult, setIsvalidResult] = useState(true)
   const config = { }
   const math = create(all, config)
-  function handleAddToTxt(val){
-    setText((curr) => [...curr,val," "])
-  }
 
+  function validation(nextVal = null){
+    const number = [...text,nextVal].filter((num)=> num !== " ");
+    console.log('checking',number)
+    const first = number[0];
+    const last = number[number.length -1]
+    const secondLast = number[number.length -2];
+
+    // checks first button + updates UI error message
+    if(/[+\-*/%]/.test(first)){
+      setIsvalidResult(false)
+      return false;
+    }
+     // checks secondLast and last button + updates UI error message
+    if(/[+\-*/%]/.test(secondLast) && /[+\-*/%]/.test(last)){
+      setIsvalidResult(false)
+      return false
+    }
+    // removes error message when input is correct
+    setIsvalidResult(true)
+    return true
+  }
+  function handleAddToTxt(val){
+    const isVal = validation(val)
+
+    if(isVal){
+      setText((curr) => [...curr,val," "])
+      setIsValid(true)
+    }
+  }
+// this need properly validating
   function handleEvaluation(){
-    const num = text.join('')
-   setResult(math.evaluate(num))
+    const num = text.filter((n)=> n !== " ").join("");
+      setResult(math.evaluate(num))
   }
 
   return (
@@ -22,10 +51,10 @@ function App() {
       <div className='calculator'>
         <div className='display-screen'>
           <div className='numberOutput'>
-            {text}
+            {isValid?text: "invalid"}
           </div>
           <div className='resultOutput'>
-            {result}
+            {isvalidResult?result: "invalid"}
           </div>
         </div>
         <div className='btnsContainer'>
