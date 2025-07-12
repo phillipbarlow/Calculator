@@ -4,7 +4,7 @@ import Button from './components/Button';
 import { create, all } from 'mathjs'
 
 function App() {
-  const [text,setText] = useState([0]);
+  const [text,setText] = useState(['0']);
   const [result,setResult] = useState("");
   const [isValid,setIsValid] = useState(true);
   const [isvalidResult, setIsvalidResult] = useState(true)
@@ -32,14 +32,20 @@ function App() {
     return true
   }
   function handleClear(){
-    setText([0])
+    setText(['0'])
     setResult("")
   }
+  
+  // removes initial 0 when user starts inputting
   function handleAddToTxt(val){
     const isVal = validation(val)
-
     if(isVal){
-      setText((curr) => [...curr,val," "])
+      setText((curr) =>{
+        if(curr.length === 1 && curr[0] === '0'){
+          return [val]
+        }
+        return [...curr,val,' ']
+      })
       setIsValid(true)
     }
   }
