@@ -4,7 +4,7 @@ import Button from './components/Button';
 import { create, all } from 'mathjs'
 
 function App() {
-  const [text,setText] = useState([]);
+  const [text,setText] = useState([0]);
   const [result,setResult] = useState("");
   const [isValid,setIsValid] = useState(true);
   const [isvalidResult, setIsvalidResult] = useState(true)
@@ -13,7 +13,6 @@ function App() {
 
   function validation(nextVal = null){
     const number = [...text,nextVal].filter((num)=> num !== " ");
-    console.log('checking',number)
     const first = number[0];
     const last = number[number.length -1]
     const secondLast = number[number.length -2];
@@ -32,13 +31,13 @@ function App() {
     setIsvalidResult(true)
     return true
   }
+  function handleClear(){
+    setText([0])
+    setResult("")
+  }
   function handleAddToTxt(val){
     const isVal = validation(val)
-    if(val === 'c'){
-      setText([])
-      setResult("")
-      return
-    }
+
     if(isVal){
       setText((curr) => [...curr,val," "])
       setIsValid(true)
@@ -62,7 +61,7 @@ function App() {
           </div>
         </div>
         <div className='btnsContainer'>
-          <Button className='clear' symbol={"c"} handleClick = {handleAddToTxt}>C</Button>
+          <Button className='clear' handleClick = {handleClear}>C</Button>
           <Button symbol={"%"} className='percent' handleClick={handleAddToTxt}>%</Button>
           <Button symbol={"/"} className='divide' handleClick={handleAddToTxt}>/</Button>
           <Button symbol={"9"} className='nine' handleClick={handleAddToTxt}>9</Button>
