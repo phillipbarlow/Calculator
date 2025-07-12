@@ -34,7 +34,11 @@ function App() {
   }
   function handleAddToTxt(val){
     const isVal = validation(val)
-
+    if(val === 'c'){
+      setText([])
+      setResult("")
+      return
+    }
     if(isVal){
       setText((curr) => [...curr,val," "])
       setIsValid(true)
@@ -58,7 +62,7 @@ function App() {
           </div>
         </div>
         <div className='btnsContainer'>
-          <Button className='clear' handleClick = {handleAddToTxt}>C</Button>
+          <Button className='clear' symbol={"c"} handleClick = {handleAddToTxt}>C</Button>
           <Button symbol={"%"} className='percent' handleClick={handleAddToTxt}>%</Button>
           <Button symbol={"/"} className='divide' handleClick={handleAddToTxt}>/</Button>
           <Button symbol={"9"} className='nine' handleClick={handleAddToTxt}>9</Button>
