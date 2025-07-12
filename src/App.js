@@ -35,13 +35,13 @@ function App() {
     setText(['0'])
     setResult("")
   }
-  
+
   // removes initial 0 when user starts inputting
   function handleAddToTxt(val){
     const isVal = validation(val)
     if(isVal){
       setText((curr) =>{
-        if(curr.length === 1 && curr[0] === '0'){
+        if(curr.length === 1 && curr[0] === '0' && /^[0-9]$/.test(val)){
           return [val]
         }
         return [...curr,val,' ']
@@ -49,7 +49,7 @@ function App() {
       setIsValid(true)
     }
   }
-// this need properly validating
+
   function handleEvaluation(){
     const num = text.filter((n)=> n !== " ").join("");
       setResult(math.evaluate(num))
