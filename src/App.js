@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 import Button from './components/Button';
-import { create, all } from 'mathjs'
+import { create, all} from 'mathjs'
 
 function App() {
   const [text,setText] = useState(['0']);
@@ -36,17 +36,16 @@ function App() {
     setResult("")
   }
 
-  // removes initial 0 when user starts inputting
   function handleAddToTxt(val){
-
+    
     const isVal = validation(val)
     if(isVal){
       setText((curr) =>{
+        // removes initial 0 when user starts inputting
         if(curr.length === 1 && curr[0] === '0' && /^[0-9]$/.test(val)){
-          console.log('line 45')
           return [val]
         }
-        console.log('line 48')
+        // keeps initial 0 when "." is clicked
         return [...curr,val]
       })
       setIsValid(true)
@@ -54,8 +53,16 @@ function App() {
   }
 
   function handleEvaluation(){
-    const toStr = text.join('')
-      setResult(math.evaluate(toStr))
+    let toStr = text.join('')
+    toStr = toStr.replace(/0\.(?=[+\-*/%])/g, "0");
+    const lastChar = toStr.split("")[toStr.length -1]
+    console.log(lastChar)
+    if(/[+\-*/%]/.test(lastChar)){
+      return
+    }
+    console.log(toStr.length)
+    setText(toStr)
+    setResult(math.evaluate(toStr))
   }
 
   return (
