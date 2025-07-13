@@ -12,7 +12,7 @@ function App() {
   const math = create(all, config)
 
   function validation(nextVal = null){
-    const number = [...text,nextVal].filter((num)=> num !== " ");
+    const number = [...text,nextVal];
     const first = number[0];
     const last = number[number.length -1]
     const secondLast = number[number.length -2];
@@ -38,21 +38,24 @@ function App() {
 
   // removes initial 0 when user starts inputting
   function handleAddToTxt(val){
+
     const isVal = validation(val)
     if(isVal){
       setText((curr) =>{
         if(curr.length === 1 && curr[0] === '0' && /^[0-9]$/.test(val)){
+          console.log('line 45')
           return [val]
         }
-        return [...curr,val,' ']
+        console.log('line 48')
+        return [...curr,val]
       })
       setIsValid(true)
     }
   }
 
   function handleEvaluation(){
-    const num = text.filter((n)=> n !== " ").join("");
-      setResult(math.evaluate(num))
+    const toStr = text.join('')
+      setResult(math.evaluate(toStr))
   }
 
   return (
