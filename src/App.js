@@ -8,6 +8,7 @@ function App() {
   const [result,setResult] = useState("");
   const [isValid,setIsValid] = useState(true);
   const [isvalidResult, setIsvalidResult] = useState(true)
+  // const [extendedNum, setExtendedNum] = useState([result])
   const config = { }
   const math = create(all, config)
 
@@ -50,18 +51,19 @@ function App() {
       })
       setIsValid(true)
     }
+    // console.log(extendedNum)
   }
 
   function handleEvaluation(){
+    if(!text) return
     let toStr = text.join('')
     toStr = toStr.replace(/0\.(?=[+\-*/%])/g, "0");
     const lastChar = toStr.split("")[toStr.length -1]
-    console.log(lastChar)
     if(/[+\-*/%]/.test(lastChar)){
       return
     }
-    console.log(toStr.length)
-    setText(toStr)
+    
+    setText(toStr.split(''))
     setResult(math.evaluate(toStr))
   }
 
