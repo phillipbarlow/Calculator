@@ -17,7 +17,13 @@ function App() {
     const first = number[0];
     const last = number[number.length -1]
     const secondLast = number[number.length -2];
-    // console.log(text)
+    // unless 0 is present
+    if(nextVal === '.'){
+      if(number[0] !== "0")
+      setText((curr)=>[...curr,"0"])
+    }
+
+    // allows number to be worked on after equal is pressed
     if(isExtended && /[+\-*/%]/.test(number[number.length -1])){
       setText([result.toString()])
       setisExtended(false)
