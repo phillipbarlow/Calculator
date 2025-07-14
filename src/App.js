@@ -5,10 +5,10 @@ import { create, all} from 'mathjs'
 
 function App() {
   const [text,setText] = useState(['0']);
-  const [result,setResult] = useState("");
+  const [result,setResult] = useState([]);
   const [isValid,setIsValid] = useState(true);
   const [isvalidResult, setIsvalidResult] = useState(true)
-  // const [extendedNum, setExtendedNum] = useState([result])
+  const [isExtended, setisExtended] = useState(false)
   const config = { }
   const math = create(all, config)
 
@@ -17,15 +17,19 @@ function App() {
     const first = number[0];
     const last = number[number.length -1]
     const secondLast = number[number.length -2];
-
+    // console.log(text)
+    if(isExtended && /[+\-*/%]/.test(number[number.length -1])){
+      setText([result.toString()])
+      setisExtended(false)
+    }
     // checks first button + updates UI error message
-    if(/[+\-*/%]/.test(first)){
-      setIsvalidResult(false)
+    if(/[+\-*/%]/.test(first) && !isExtended){
+      // setIsvalidResult(false)
       return false;
     }
      // checks secondLast and last button + updates UI error message
-    if(/[+\-*/%]/.test(secondLast) && /[+\-*/%]/.test(last)){
-      setIsvalidResult(false)
+    if((/[+\-*/%]/.test(secondLast) && /[+\-*/%]/.test(last)) && !isExtended){
+      // setIsvalidResult(false)
       return false
     }
     // removes error message when input is correct
@@ -35,10 +39,13 @@ function App() {
   function handleClear(){
     setText(['0'])
     setResult("")
+    setIsValid(true)
+    setIsvalidResult(true)
+    setisExtended(false)
   }
 
   function handleAddToTxt(val){
-    
+ 
     const isVal = validation(val)
     if(isVal){
       setText((curr) =>{
@@ -51,10 +58,11 @@ function App() {
       })
       setIsValid(true)
     }
-    // console.log(extendedNum)
+    
   }
 
   function handleEvaluation(){
+    
     if(!text) return
     let toStr = text.join('')
     toStr = toStr.replace(/0\.(?=[+\-*/%])/g, "0");
@@ -62,9 +70,12 @@ function App() {
     if(/[+\-*/%]/.test(lastChar)){
       return
     }
-    
+    const result = math.evaluate(toStr)
+    // rounds to decimal place
+    const rounded = Math.round(result * 1000) / 1000;
     setText(toStr.split(''))
-    setResult(math.evaluate(toStr))
+    setResult(rounded)
+    setisExtended(true)
   }
 
   return (
