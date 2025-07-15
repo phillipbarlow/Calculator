@@ -3,72 +3,69 @@ import './App.css';
 import Button from './components/Button';
 import { create, all} from 'mathjs'
 
-function App() {
+function useCalculator(){
+  const config = { }
+  const math = create(all, config)
   const [text,setText] = useState(['0']);
   const [result,setResult] = useState([]);
   const [isValid,setIsValid] = useState(true);
   const [isvalidResult, setIsvalidResult] = useState(true)
   const [isExtended, setisExtended] = useState(false)
-  const config = { }
-  const math = create(all, config)
+
+  function handleClear(){
+  setText(['0'])
+  setResult([])
+  setIsValid(true)
+  setIsvalidResult(true)
+  setisExtended(false)
+}
 
   function validation(nextVal = null){
-    const number = [...text,nextVal];
-    const first = number[0];
-    const last = number[number.length -1]
-    const secondLast = number[number.length -2];
-    // unless 0 is present
-    if(nextVal === '.'){
-      if(number[0] !== "0")
-      setText((curr)=>[...curr,"0"])
-    }
-
-    // allows number to be worked on after equal is pressed
-    if(isExtended && /[+\-*/%]/.test(number[number.length -1])){
-      setText([result.toString()])
-      setisExtended(false)
-    }
-    // checks first button + updates UI error message
-    if(/[+\-*/%]/.test(first) && !isExtended){
-      // setIsvalidResult(false)
-      return false;
-    }
-     // checks secondLast and last button + updates UI error message
-    if((/[+\-*/%]/.test(secondLast) && /[+\-*/%]/.test(last)) && !isExtended){
-      // setIsvalidResult(false)
-      return false
-    }
-    // removes error message when input is correct
-    setIsvalidResult(true)
-    return true
+  const number = [...text,nextVal];
+  const first = number[0];
+  const last = number[number.length -1]
+  const secondLast = number[number.length -2];
+  // unless 0 is present
+  if(nextVal === '.'){
+    if(number[0] !== "0")
+    setText((curr)=>[...curr,"0"])
   }
-  function handleClear(){
-    setText(['0'])
-    setResult("")
-    setIsValid(true)
-    setIsvalidResult(true)
+
+  // allows number to be worked on after equal is pressed
+  if(isExtended && /[+\-*/%]/.test(number[number.length -1])){
+    setText([result.toString()])
     setisExtended(false)
   }
+  // checks first button + updates UI error message
+  if(/[+\-*/%]/.test(first) && !isExtended){
+    // setIsvalidResult(false)
+    return false;
+  }
+   // checks secondLast and last button + updates UI error message
+  if((/[+\-*/%]/.test(secondLast) && /[+\-*/%]/.test(last)) && !isExtended){
+    // setIsvalidResult(false)
+    return false
+  }
+  // removes error message when input is correct
+  setIsvalidResult(true)
+  return true
+}
 
   function handleAddToTxt(val){
- 
-    const isVal = validation(val)
-    if(isVal){
-      setText((curr) =>{
-        // removes initial 0 when user starts inputting
-        if(curr.length === 1 && curr[0] === '0' && /^[0-9]$/.test(val)){
-          return [val]
-        }
-        // keeps initial 0 when "." is clicked
-        return [...curr,val]
-      })
-      setIsValid(true)
-    }
-    
+  const isVal = validation(val)
+  if(isVal){
+    setText((curr) =>{
+      // removes initial 0 when user starts inputting
+      if(curr.length === 1 && curr[0] === '0' && /^[0-9]$/.test(val)){
+        return [val]
+      }
+      // keeps initial 0 when "." is clicked
+      return [...curr,val]
+    })
+    setIsValid(true)
   }
-
-  function handleEvaluation(){
-    
+  }
+   function handleEvaluation(){
     if(!text) return
     let toStr = text.join('')
     toStr = toStr.replace(/0\.(?=[+\-*/%])/g, "0");
@@ -83,6 +80,28 @@ function App() {
     setResult(rounded)
     setisExtended(true)
   }
+  return{
+    text,
+    result,
+    isValid,
+    isvalidResult,
+    isExtended,
+    handleAddToTxt,
+    validation,
+    handleClear,
+    handleEvaluation
+  }
+}
+function App() {
+  const {
+      text,
+      result,
+      isValid,
+      isvalidResult,
+      handleAddToTxt,
+      handleEvaluation,
+      handleClear
+    } = useCalculator();
 
   return (
     <div className="App">
